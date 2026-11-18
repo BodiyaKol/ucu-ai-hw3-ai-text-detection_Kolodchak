@@ -1,0 +1,134 @@
+{
+ "train": {
+  "rows": 272352,
+  "unique_ids": 272352,
+  "null_text": 0,
+  "lang": {
+   "en-EN": 219581,
+   "de-DE": 52771
+  },
+  "domain": {
+   "student_essays": 54106,
+   "bundestag": 52343,
+   "cnn_news": 44285,
+   "blog_authorship_corpus": 40547,
+   "house_of_commons": 31859,
+   "euro_court_cases": 27578,
+   "arxiv_papers": 14290,
+   "gutenberg": 7344
+  },
+  "words_quantiles": {
+   "0.0": 20.0,
+   "0.05": 65.0,
+   "0.25": 273.0,
+   "0.5": 463.0,
+   "0.75": 686.0,
+   "0.95": 1263.0,
+   "1.0": 3000.0
+  },
+  "share_words_gt_400": 0.5885545176829985,
+  "label": {
+   "ai": 121940,
+   "fusion": 83682,
+   "human": 66730
+  },
+  "label_x_lang": {
+   "de-DE": {
+    "ai": 20337,
+    "fusion": 17924,
+    "human": 14510
+   },
+   "en-EN": {
+    "ai": 101603,
+    "fusion": 65758,
+    "human": 52220
+   }
+  },
+  "domain_x_label": {
+   "arxiv_papers": {
+    "ai": 12050,
+    "fusion": 1833,
+    "human": 407
+   },
+   "blog_authorship_corpus": {
+    "ai": 15684,
+    "fusion": 12397,
+    "human": 12466
+   },
+   "bundestag": {
+    "ai": 19977,
+    "fusion": 17887,
+    "human": 14479
+   },
+   "cnn_news": {
+    "ai": 19488,
+    "fusion": 11402,
+    "human": 13395
+   },
+   "euro_court_cases": {
+    "ai": 11141,
+    "fusion": 10160,
+    "human": 6277
+   },
+   "gutenberg": {
+    "ai": 6719,
+    "fusion": 378,
+    "human": 247
+   },
+   "house_of_commons": {
+    "ai": 15298,
+    "fusion": 9608,
+    "human": 6953
+   },
+   "student_essays": {
+    "ai": 21583,
+    "fusion": 20017,
+    "human": 12506
+   }
+  },
+  "median_words_by_label": {
+   "ai": 465.0,
+   "fusion": 445.0,
+   "human": 481.0
+  }
+ },
+ "test": {
+  "rows": 25000,
+  "unique_ids": 25000,
+  "null_text": 0,
+  "lang": {
+   "en-EN": 21317,
+   "de-DE": 3683
+  },
+  "domain": {
+   "cnn_news": 4937,
+   "blog_authorship_corpus": 4446,
+   "student_essays": 3976,
+   "bundestag": 3581,
+   "house_of_commons": 2941,
+   "gutenberg": 1845,
+   "arxiv_papers": 1683,
+   "euro_court_cases": 1591
+  },
+  "words_quantiles": {
+   "0.0": 20.0,
+   "0.05": 50.0,
+   "0.25": 239.0,
+   "0.5": 458.0,
+   "0.75": 683.0,
+   "0.95": 1177.0499999999993,
+   "1.0": 3000.0
+  },
+  "share_words_gt_400": 0.56736
+ },
+ "checks": {
+  "sample_columns": [
+   "id",
+   "label"
+  ],
+  "sample_rows": 25000,
+  "sample_order_matches_test": true,
+  "train_test_id_overlap": 0,
+  "unknown_labels": []
+ }
+}

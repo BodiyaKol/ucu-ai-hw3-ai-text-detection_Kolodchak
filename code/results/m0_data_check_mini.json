@@ -1,0 +1,134 @@
+{
+ "train": {
+  "rows": 1498,
+  "unique_ids": 1498,
+  "null_text": 0,
+  "lang": {
+   "en-EN": 1214,
+   "de-DE": 284
+  },
+  "domain": {
+   "student_essays": 322,
+   "bundestag": 282,
+   "cnn_news": 245,
+   "blog_authorship_corpus": 229,
+   "house_of_commons": 176,
+   "euro_court_cases": 136,
+   "arxiv_papers": 72,
+   "gutenberg": 36
+  },
+  "words_quantiles": {
+   "0.0": 21.0,
+   "0.05": 55.0,
+   "0.25": 280.0,
+   "0.5": 453.5,
+   "0.75": 678.75,
+   "0.95": 1101.5999999999995,
+   "1.0": 2927.0
+  },
+  "share_words_gt_400": 0.5874499332443258,
+  "label": {
+   "ai": 675,
+   "fusion": 445,
+   "human": 378
+  },
+  "label_x_lang": {
+   "de-DE": {
+    "ai": 103,
+    "fusion": 111,
+    "human": 70
+   },
+   "en-EN": {
+    "ai": 572,
+    "fusion": 334,
+    "human": 308
+   }
+  },
+  "domain_x_label": {
+   "arxiv_papers": {
+    "ai": 61,
+    "fusion": 8,
+    "human": 3
+   },
+   "blog_authorship_corpus": {
+    "ai": 94,
+    "fusion": 65,
+    "human": 70
+   },
+   "bundestag": {
+    "ai": 102,
+    "fusion": 110,
+    "human": 70
+   },
+   "cnn_news": {
+    "ai": 105,
+    "fusion": 54,
+    "human": 86
+   },
+   "euro_court_cases": {
+    "ai": 57,
+    "fusion": 43,
+    "human": 36
+   },
+   "gutenberg": {
+    "ai": 32,
+    "fusion": 3,
+    "human": 1
+   },
+   "house_of_commons": {
+    "ai": 92,
+    "fusion": 51,
+    "human": 33
+   },
+   "student_essays": {
+    "ai": 132,
+    "fusion": 111,
+    "human": 79
+   }
+  },
+  "median_words_by_label": {
+   "ai": 444.0,
+   "fusion": 466.0,
+   "human": 462.0
+  }
+ },
+ "test": {
+  "rows": 300,
+  "unique_ids": 300,
+  "null_text": 0,
+  "lang": {
+   "en-EN": 259,
+   "de-DE": 41
+  },
+  "domain": {
+   "cnn_news": 64,
+   "student_essays": 57,
+   "blog_authorship_corpus": 46,
+   "bundestag": 40,
+   "euro_court_cases": 27,
+   "house_of_commons": 24,
+   "gutenberg": 23,
+   "arxiv_papers": 19
+  },
+  "words_quantiles": {
+   "0.0": 20.0,
+   "0.05": 41.95,
+   "0.25": 239.0,
+   "0.5": 447.5,
+   "0.75": 688.75,
+   "0.95": 1222.2500000000002,
+   "1.0": 2610.0
+  },
+  "share_words_gt_400": 0.54
+ },
+ "checks": {
+  "sample_columns": [
+   "id",
+   "label"
+  ],
+  "sample_rows": 300,
+  "sample_order_matches_test": true,
+  "train_test_id_overlap": 0,
+  "unknown_labels": []
+ }
+}
