@@ -221,3 +221,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---- HW3 ----
+code/.venv/
+code/data/
+code/outputs/
+*.zip
+*.csv
+!code/results/*.csv
+.ipynb_checkpoints/
+kaggle.json

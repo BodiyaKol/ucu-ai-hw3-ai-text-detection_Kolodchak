@@ -1,0 +1,10 @@
+# Fixed experimental protocol for HW3. All model comparisons use these values.
+competition: ai-generated-text-detection-hw3-ucu-ai-2026
+seed: 42
+labels: [human, ai, fusion]
+metric: macro_f1
+
+split:                          # finalized in M0.2 (grouped validation split)
+  train_sample: 50000
+  val_size: 10000
+  group_method: TBD
