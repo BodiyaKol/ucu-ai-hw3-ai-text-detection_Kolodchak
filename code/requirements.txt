@@ -8,3 +8,5 @@ tqdm==4.70.1
 kaggle==2.2.5
 six==1.17.0        # kaggle 2.2.5 imports six but does not declare it as a dependency
 pytest==9.2.0
+transformers       # tokenizers for token-length EDA (pin after install)
+sentencepiece      # needed by the mDeBERTa-v3 tokenizer
