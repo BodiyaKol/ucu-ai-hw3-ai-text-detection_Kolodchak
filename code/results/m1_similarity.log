@@ -1,0 +1,45 @@
+
+$ python scripts/build_similarity.py
+de-DE bundestag: train=52343 test=3581 78s
+de-DE gutenberg: train=428 test=102 1s
+en-EN arxiv_papers: train=14290 test=1683 27s
+en-EN blog_authorship_corpus: train=40547 test=4446 34s
+en-EN cnn_news: train=44285 test=4937 65s
+en-EN euro_court_cases: train=27578 test=1591 39s
+en-EN gutenberg: train=6916 test=1743 12s
+en-EN house_of_commons: train=31859 test=2941 41s
+en-EN student_essays: train=54106 test=3976 56s
+
+saved /kaggle/working/similarity/pairs.csv.gz rows=1486760 in 369s
+
+== train: best-Jaccard neighbour, counts (row = query label, col = neighbour label)
+cand_label      ai  fusion  human
+label                            
+ai          116348    3257   2335
+fusion        1415   42127  40140
+human         1231   52573  12926
+
+== train: median Jaccard of best neighbour
+cand_label     ai  fusion  human
+label                           
+ai          0.019   0.009  0.014
+fusion      0.017   0.569  0.565
+human       0.016   0.548  0.012
+
+== best-neighbour Jaccard quantiles by split / query label
+               0.50   0.90   0.99
+split label                      
+test  NaN     0.011  0.034  0.120
+train ai      0.018  0.050  0.190
+      fusion  0.562  0.863  0.989
+      human   0.491  0.812  0.967
+
+== top-1 cosine quantiles by split / query label
+                0.5    0.9
+split label               
+test  NaN     0.820  0.909
+train ai      0.849  0.929
+      fusion  0.948  0.992
+      human   0.923  0.988
+test: share of queries with best Jaccard > thr: {0.05: 0.046, 0.1: 0.013, 0.2: 0.006, 0.3: 0.004, 0.5: 0.002}
+train: share of queries with best Jaccard > thr: {0.05: 0.528, 0.1: 0.485, 0.2: 0.473, 0.3: 0.45, 0.5: 0.308}

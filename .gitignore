@@ -229,5 +229,6 @@ code/outputs/
 *.zip
 *.csv
 !code/results/*.csv
+!code/results/*.log
 .ipynb_checkpoints/
 kaggle.json
