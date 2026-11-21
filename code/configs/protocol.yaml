@@ -4,7 +4,12 @@ seed: 42
 labels: [human, ai, fusion]
 metric: macro_f1
 
-split:                          # finalized in M0.2 (grouped validation split)
-  train_sample: 50000
-  val_size: 10000
-  group_method: TBD
+split:                          # M1.3 grouped validation split
+  group_method: word 3-gram Jaccard > threshold, connected components (M1.2 pairs)
+  jaccard_threshold: 0.2        # gap between non-related (test->train p99 0.12) and related (median ~0.55)
+  stratify: label|lang|domain
+  n_folds: 5                    # StratifiedGroupKFold over all train rows
+  val_fold: 0                   # val pool = fold 0, train pool = folds 1-4
+  val_size: 10000               # fixed val sample from the val pool
+  train_sample: 50000           # fixed train sample from the train pool
+  file: splits/split.csv.gz     # id, group, fold, subset (committed, ids only)

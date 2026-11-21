@@ -1,0 +1,36 @@
+train rows=272352 edges=202585 groups=194626 singletons=141352
+group size counts: {1: 141352, 2: 34860, 3: 16367, 4: 1251, 5: 285, 6: 322, 7: 63, 8: 34, 9: 9, 10: 13, 11: 6, 12: 10}
+largest groups (size, domains): [(410, ['arxiv_papers']), (352, ['house_of_commons']), (275, ['euro_court_cases']), (212, ['house_of_commons']), (172, ['blog_authorship_corpus'])]
+group label composition: {'ai': 120815, 'fusion+human': 50401, 'human': 14785, 'fusion': 8581, 'ai+human': 31, 'ai+fusion+human': 13}
+share of rows in multi-text groups by label: {'ai': 0.01, 'fusion': 0.929, 'human': 0.78}
+fold sizes: {0: 54466, 1: 54467, 2: 54466, 3: 54466, 4: 54487}
+
+group overlap: train-sample/val-sample=0 train-pool/val-pool=0
+random split: share of val rows with a related text in train = 0.467 {'ai': 0.008, 'fusion': 0.913, 'human': 0.757}
+
+== label distribution
+        train    val
+label               
+ai      0.446  0.444
+fusion  0.307  0.308
+human   0.247  0.248
+
+== lang distribution
+       train    val   test
+lang                      
+en-EN  0.807  0.807  0.853
+de-DE  0.193  0.193  0.147
+
+== domain distribution
+                        train    val   test
+domain                                     
+student_essays          0.197  0.201  0.159
+bundestag               0.192  0.192  0.143
+cnn_news                0.165  0.163  0.197
+blog_authorship_corpus  0.148  0.149  0.178
+house_of_commons        0.117  0.119  0.118
+euro_court_cases        0.101  0.100  0.064
+arxiv_papers            0.053  0.050  0.067
+gutenberg               0.026  0.026  0.074
+
+saved /home/bohdan/3_course/AI-3-course/HW3_NLP/ucu-ai-hw3-ai-text-detection_Kolodchak/code/splits/split.csv.gz  train=50000 val=10000

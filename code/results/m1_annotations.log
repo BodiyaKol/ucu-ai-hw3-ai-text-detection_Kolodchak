@@ -1,0 +1,51 @@
+
+$ python scripts/build_annotations.py
+  train: 20000 rows
+  train: 40000 rows
+  train: 60000 rows
+  train: 80000 rows
+  train: 100000 rows
+  train: 120000 rows
+  train: 140000 rows
+  train: 160000 rows
+  train: 180000 rows
+  train: 200000 rows
+  train: 220000 rows
+  train: 240000 rows
+  train: 260000 rows
+  train: 272352 rows
+  test: 20000 rows
+  test: 25000 rows
+
+saved /kaggle/working/annotations/annotations.csv.gz rows=297352 cols=23 in 812s
+
+== train medians by label
+label                     ai    fusion     human
+n_chars             3112.000  2778.000  2909.000
+n_words              465.000   445.000   481.000
+n_sentences           25.000    25.000    27.000
+n_lines                1.000     1.000     1.000
+n_paragraphs           1.000     1.000     1.000
+words_per_sentence    17.931    17.291    17.531
+avg_word_len           5.434     4.936     4.714
+ttr                    0.587     0.562     0.534
+punct_ratio            0.025     0.023     0.025
+comma_per_word         0.059     0.047     0.046
+digit_ratio            0.000     0.002     0.003
+upper_ratio            0.021     0.026     0.031
+n_emdash               0.000     0.000     0.000
+n_curly_quotes         0.000     0.000     0.000
+n_markdown             0.000     0.000     0.000
+n_bullets              0.000     0.000     0.000
+n_tok_xlmr           690.000   621.000   669.000
+n_tok_mdeberta       786.000   707.000   755.000
+
+== train means by label (LLM formatting markers)
+label              ai  fusion  human
+n_emdash        0.290   0.099  0.056
+n_curly_quotes  4.565   2.689  3.090
+n_markdown      0.015   0.000  0.000
+n_bullets       0.003   0.118  0.095
+n_tok_xlmr: median=665 share>512=0.638 share>1024=0.240
+n_tok_mdeberta: median=757 share>512=0.685 share>1024=0.312
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
