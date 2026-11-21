@@ -1,0 +1,17 @@
+base: ../protocol.yaml
+exp: m2_tfidf
+
+features:                       # each vectorizer is fitted on the TRAIN subset only (no leakage)
+  word: {analyzer: word, ngram_range: [1, 2], lowercase: false, min_df: 3, max_features: 200000, sublinear_tf: true}
+  char: {analyzer: char, ngram_range: [3, 5], lowercase: false, min_df: 5, max_features: 300000, sublinear_tf: true}
+
+grid:                           # small parameter search, selected by val macro-F1
+  - {model: linsvc, C: 0.1}
+  - {model: linsvc, C: 0.5}
+  - {model: logreg, C: 3.0}
+  - {model: logreg, C: 10.0}
+
+mini:                           # overrides for --mini (tiny local smoke test)
+  features:
+    word: {min_df: 1, max_features: 20000}
+    char: {min_df: 2, max_features: 30000}

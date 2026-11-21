@@ -13,3 +13,12 @@ def iter_csv(path, chunksize: int = 20000, usecols=None):
 def count_words(texts: pd.Series) -> pd.Series:
     """Whitespace word count; NaN text counts as 0 words."""
     return texts.fillna("").astype(str).str.split().str.len().astype("int32")
+
+
+def load_train_val(root, split_file):
+    """train.csv joined with the fixed split -> (train subset, val subset, all train rows)."""
+    split = pd.read_csv(split_file, usecols=["id", "group", "subset"])
+    full = pd.read_csv(root / "train.csv").merge(split, on="id", how="inner")
+    tr = full[full["subset"] == "train"].reset_index(drop=True)
+    va = full[full["subset"] == "val"].reset_index(drop=True)
+    return tr, va, full
