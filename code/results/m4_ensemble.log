@@ -1,0 +1,20 @@
+val=10000 halves=[5058, 4942] test=25000
+
+                                           experiment  macro_f1  f1_human  f1_ai  f1_fusion                                                                     note
+                                      ref TF-IDF (M2)    0.8816    0.8257 0.9854     0.8338                                                                         
+                                ref XLM-R chunks (M3)    0.8975    0.8368 0.9851     0.8706                                                                         
+                        E1 ensemble w=0.5 (no tuning)    0.9182    0.8717 0.9910     0.8918                                                                         
+                      E1_ensemble (cross-fit, honest)    0.9180    0.8724 0.9910     0.8904                                                           w=0.45 | w=0.5
+          E1_ensemble (tuned on full val, optimistic)    0.9192    0.8753 0.9910     0.8911                                                                   w=0.45
+                  E2_weights_xlmr (cross-fit, honest)    0.9121    0.8701 0.9879     0.8783  w=1.0 t_human=2.460 t_fusion=0.449 | w=1.0 t_human=1.649 t_fusion=0.407
+      E2_weights_xlmr (tuned on full val, optimistic)    0.9139    0.8718 0.9878     0.8820                                       w=1.0 t_human=2.014 t_fusion=0.497
+            E1E2_ensemble_weights (cross-fit, honest)    0.9176    0.8761 0.9911     0.8855 w=0.45 t_human=1.649 t_fusion=1.000 | w=0.5 t_human=1.221 t_fusion=1.105
+E1E2_ensemble_weights (tuned on full val, optimistic)    0.9207    0.8788 0.9916     0.8916                                      w=0.45 t_human=1.350 t_fusion=1.221
+
+best honest: E1_ensemble (cross-fit, honest)  macro-F1=0.918
+per-domain macro-F1: {'arxiv_papers': 0.7458, 'blog_authorship_corpus': 0.8458, 'bundestag': 0.934, 'cnn_news': 0.9753, 'euro_court_cases': 0.9114, 'gutenberg': 0.7972, 'house_of_commons': 0.9297, 'student_essays': 0.9059}
+confusion (rows=true, cols=pred, order human/ai/fusion): [[2161, 17, 303], [4, 4427, 13], [308, 46, 2721]]
+test pred share E1_ensemble: {'ai': 0.518, 'human': 0.247, 'fusion': 0.235}  params: w=0.45
+test pred share E2_weights_xlmr: {'ai': 0.517, 'human': 0.259, 'fusion': 0.223}  params: w=1.0 t_human=2.014 t_fusion=0.497
+test pred share E1E2_ensemble_weights: {'ai': 0.515, 'human': 0.255, 'fusion': 0.23}  params: w=0.45 t_human=1.350 t_fusion=1.221
+saved /home/bohdan/3_course/AI-3-course/HW3_NLP/ucu-ai-hw3-ai-text-detection_Kolodchak/code/outputs/m4_ensemble
