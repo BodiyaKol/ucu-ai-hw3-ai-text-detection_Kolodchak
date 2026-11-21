@@ -1,0 +1,24 @@
+
+$ python scripts/train_tfidf.py --control
+train=50000 val=10000 test=25000 -> /kaggle/working/m2_tfidf
+dummy (most frequent) val macro-F1 = 0.2051
+  word: vocab=200000 nnz/doc=508 115s
+  char: vocab=300000 nnz/doc=4930 596s
+  grid {'model': 'linsvc', 'C': 0.1}: val macro-F1 = 0.8602 (70s)
+  grid {'model': 'linsvc', 'C': 0.5}: val macro-F1 = 0.8700 (90s)
+  grid {'model': 'logreg', 'C': 3.0}: val macro-F1 = 0.8806 (508s)
+  grid {'model': 'logreg', 'C': 10.0}: val macro-F1 = 0.8816 (385s)
+best: {'model': 'logreg', 'C': 10.0, 'val_macro_f1': 0.8815984283481794, 'sec': 385}
+ablation (val macro-F1): {'word+char': 0.8816, 'word': 0.8605, 'char': 0.881}
+
+== best logreg C=10.0: val macro-F1 = 0.8816
+per-class F1: {'human': 0.8257, 'ai': 0.9854, 'fusion': 0.8338}
+per-domain macro-F1: {'arxiv_papers': 0.8508, 'blog_authorship_corpus': 0.767, 'bundestag': 0.9124, 'cnn_news': 0.916, 'euro_court_cases': 0.9063, 'gutenberg': 0.7398, 'house_of_commons': 0.8936, 'student_essays': 0.8809}
+confusion (rows=true, cols=pred, order human/ai/fusion): [[2122, 14, 345], [8, 4408, 28], [529, 81, 2465]]
+submission OK, predicted label share on test: {'ai': 0.518, 'human': 0.263, 'fusion': 0.218}
+  word: vocab=200000 nnz/doc=510 109s
+  char: vocab=300000 nnz/doc=4945 446s
+
+== control: RANDOM split val macro-F1 = 0.8689 (grouped: 0.8816); per-class: {'human': 0.802, 'ai': 0.9871, 'fusion': 0.8177}
+
+saved /kaggle/working/m2_tfidf/metrics.json
