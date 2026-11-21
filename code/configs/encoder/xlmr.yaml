@@ -1,0 +1,35 @@
+base: ../protocol.yaml
+exp: m3_xlmr
+model_name: FacebookAI/xlm-roberta-base
+max_len: 512
+train_mode: head              # window used for training
+eval_modes: [head, head_tail, chunks]
+head_tokens: 128              # head_tail: first 128 + last (max_len - 2 - 128) tokens
+max_chunks: 8                 # chunks: at most 8 windows per text (bounds inference cost)
+min_tail: 32                  # chunks: drop a trailing window shorter than this
+prefix_meta: false            # prepend "[domain] [lang]" to the text (M4 experiment)
+epochs: 2
+batch_size: 16
+eval_batch_size: 64
+lr: 2.0e-5
+weight_decay: 0.01
+warmup_ratio: 0.06
+grad_clip: 1.0
+fp16: true
+num_workers: 2
+log_every: 200
+
+mini:                         # local CPU smoke test: real tokenizer, tiny random 1-layer model
+  tiny_random: true
+  max_len: 64
+  head_tokens: 16             # must be < max_len - 2
+  min_tail: 8
+  epochs: 1
+  batch_size: 8
+  eval_batch_size: 16
+  fp16: false
+  num_workers: 0
+  n_train: 64
+  n_val: 48
+  n_test: 32
+  log_every: 2
