@@ -1,0 +1,73 @@
+
+$ python scripts/train_encoder.py
+device=cuda fp16=True train=50000 val=10000 test=25000 -> /kaggle/working/m3_xlmr
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (738 > 512). Running this sequence through the model will result in indexing errors
+tokenized in 96s
+
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 197/197 [00:00<00:00, 2675.55it/s]
+[transformers] [1mXLMRobertaForSequenceClassification LOAD REPORT[0m from: FacebookAI/xlm-roberta-base
+Key                         | Status     | 
+----------------------------+------------+-
+lm_head.layer_norm.bias     | UNEXPECTED | 
+roberta.pooler.dense.weight | UNEXPECTED | 
+lm_head.dense.bias          | UNEXPECTED | 
+lm_head.bias                | UNEXPECTED | 
+lm_head.layer_norm.weight   | UNEXPECTED | 
+lm_head.dense.weight        | UNEXPECTED | 
+roberta.pooler.dense.bias   | UNEXPECTED | 
+classifier.dense.bias       | MISSING    | 
+classifier.dense.weight     | MISSING    | 
+classifier.out_proj.bias    | MISSING    | 
+classifier.out_proj.weight  | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+  ep 0 step 200/6250 loss 1.0184 lr 1.07e-05 102s
+  ep 0 step 400/6250 loss 0.5784 lr 1.99e-05 207s
+  ep 0 step 600/6250 loss 0.4744 lr 1.92e-05 311s
+  ep 0 step 800/6250 loss 0.4257 lr 1.86e-05 416s
+  ep 0 step 1000/6250 loss 0.3869 lr 1.79e-05 520s
+  ep 0 step 1200/6250 loss 0.3366 lr 1.72e-05 624s
+  ep 0 step 1400/6250 loss 0.3143 lr 1.65e-05 727s
+  ep 0 step 1600/6250 loss 0.3416 lr 1.58e-05 832s
+  ep 0 step 1800/6250 loss 0.3298 lr 1.51e-05 936s
+  ep 0 step 2000/6250 loss 0.3288 lr 1.45e-05 1040s
+  ep 0 step 2200/6250 loss 0.3216 lr 1.38e-05 1144s
+  ep 0 step 2400/6250 loss 0.3186 lr 1.31e-05 1249s
+  ep 0 step 2600/6250 loss 0.2942 lr 1.24e-05 1353s
+  ep 0 step 2800/6250 loss 0.3149 lr 1.17e-05 1457s
+  ep 0 step 3000/6250 loss 0.3018 lr 1.11e-05 1561s
+== epoch 0: val macro-F1 (head) = 0.8162
+  ep 1 step 3200/6250 loss 0.1063 lr 1.04e-05 1732s
+  ep 1 step 3400/6250 loss 0.2429 lr 9.70e-06 1836s
+  ep 1 step 3600/6250 loss 0.2648 lr 9.02e-06 1939s
+  ep 1 step 3800/6250 loss 0.2363 lr 8.34e-06 2043s
+  ep 1 step 4000/6250 loss 0.2434 lr 7.66e-06 2146s
+  ep 1 step 4200/6250 loss 0.2493 lr 6.98e-06 2249s
+  ep 1 step 4400/6250 loss 0.2466 lr 6.30e-06 2353s
+  ep 1 step 4600/6250 loss 0.2342 lr 5.62e-06 2456s
+  ep 1 step 4800/6250 loss 0.2266 lr 4.94e-06 2559s
+  ep 1 step 5000/6250 loss 0.2206 lr 4.26e-06 2661s
+  ep 1 step 5200/6250 loss 0.2323 lr 3.57e-06 2764s
+  ep 1 step 5400/6250 loss 0.2231 lr 2.89e-06 2866s
+  ep 1 step 5600/6250 loss 0.2010 lr 2.21e-06 2969s
+  ep 1 step 5800/6250 loss 0.2204 lr 1.53e-06 3071s
+  ep 1 step 6000/6250 loss 0.2225 lr 8.51e-07 3173s
+  ep 1 step 6200/6250 loss 0.2101 lr 1.70e-07 3276s
+== epoch 1: val macro-F1 (head) = 0.8672
+
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]
+Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.35s/it]
+Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.35s/it]
+== mode head: val macro-F1 = 0.8672 windows=10000 F1={'human': 0.7962, 'ai': 0.9876, 'fusion': 0.8178} (235s)
+== mode head_tail: val macro-F1 = 0.8831 windows=10000 F1={'human': 0.8203, 'ai': 0.9871, 'fusion': 0.842} (235s)
+== mode chunks: val macro-F1 = 0.8975 windows=19872 F1={'human': 0.8368, 'ai': 0.9851, 'fusion': 0.8706} (426s)
+
+best mode: chunks  val macro-F1 = 0.8975
+per-domain macro-F1: {'arxiv_papers': 0.6549, 'blog_authorship_corpus': 0.8475, 'bundestag': 0.8926, 'cnn_news': 0.9569, 'euro_court_cases': 0.841, 'gutenberg': 0.868, 'house_of_commons': 0.9302, 'student_essays': 0.8981}
+confusion (rows=true, cols=pred, order human/ai/fusion): [[1949, 26, 506], [4, 4385, 55], [224, 48, 2803]]
+submission OK, predicted label share on test: {'ai': 0.514, 'fusion': 0.263, 'human': 0.223}
+saved /kaggle/working/m3_xlmr/metrics.json
