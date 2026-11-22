@@ -1,0 +1,126 @@
+{
+ "table": [
+  {
+   "experiment": "ref TF-IDF (M2)",
+   "macro_f1": 0.8816,
+   "f1_human": 0.8257,
+   "f1_ai": 0.9854,
+   "f1_fusion": 0.8338,
+   "note": ""
+  },
+  {
+   "experiment": "ref XLM-R chunks (M3)",
+   "macro_f1": 0.8975,
+   "f1_human": 0.8368,
+   "f1_ai": 0.9851,
+   "f1_fusion": 0.8706,
+   "note": ""
+  },
+  {
+   "experiment": "E1 ensemble w=0.5 (no tuning)",
+   "macro_f1": 0.9182,
+   "f1_human": 0.8717,
+   "f1_ai": 0.991,
+   "f1_fusion": 0.8918,
+   "note": ""
+  },
+  {
+   "experiment": "E1_ensemble (cross-fit, honest)",
+   "macro_f1": 0.918,
+   "f1_human": 0.8724,
+   "f1_ai": 0.991,
+   "f1_fusion": 0.8904,
+   "note": "w=0.45 | w=0.5"
+  },
+  {
+   "experiment": "E1_ensemble (tuned on full val, optimistic)",
+   "macro_f1": 0.9192,
+   "f1_human": 0.8753,
+   "f1_ai": 0.991,
+   "f1_fusion": 0.8911,
+   "note": "w=0.45"
+  },
+  {
+   "experiment": "E2_weights_xlmr (cross-fit, honest)",
+   "macro_f1": 0.9121,
+   "f1_human": 0.8701,
+   "f1_ai": 0.9879,
+   "f1_fusion": 0.8783,
+   "note": "w=1.0 t_human=2.460 t_fusion=0.449 | w=1.0 t_human=1.649 t_fusion=0.407"
+  },
+  {
+   "experiment": "E2_weights_xlmr (tuned on full val, optimistic)",
+   "macro_f1": 0.9139,
+   "f1_human": 0.8718,
+   "f1_ai": 0.9878,
+   "f1_fusion": 0.882,
+   "note": "w=1.0 t_human=2.014 t_fusion=0.497"
+  },
+  {
+   "experiment": "E1E2_ensemble_weights (cross-fit, honest)",
+   "macro_f1": 0.9176,
+   "f1_human": 0.8761,
+   "f1_ai": 0.9911,
+   "f1_fusion": 0.8855,
+   "note": "w=0.45 t_human=1.649 t_fusion=1.000 | w=0.5 t_human=1.221 t_fusion=1.105"
+  },
+  {
+   "experiment": "E1E2_ensemble_weights (tuned on full val, optimistic)",
+   "macro_f1": 0.9207,
+   "f1_human": 0.8788,
+   "f1_ai": 0.9916,
+   "f1_fusion": 0.8916,
+   "note": "w=0.45 t_human=1.350 t_fusion=1.221"
+  }
+ ],
+ "finals": {
+  "E1_ensemble": "w=0.45",
+  "E2_weights_xlmr": "w=1.0 t_human=2.014 t_fusion=0.497",
+  "E1E2_ensemble_weights": "w=0.45 t_human=1.350 t_fusion=1.221"
+ },
+ "test_pred_share": {
+  "E1_ensemble": {
+   "ai": 0.518,
+   "human": 0.247,
+   "fusion": 0.235
+  },
+  "E2_weights_xlmr": {
+   "ai": 0.517,
+   "human": 0.259,
+   "fusion": 0.223
+  },
+  "E1E2_ensemble_weights": {
+   "ai": 0.515,
+   "human": 0.255,
+   "fusion": 0.23
+  }
+ },
+ "best_honest": "E1_ensemble (cross-fit, honest)",
+ "best_by_domain": {
+  "arxiv_papers": 0.7457540616133848,
+  "blog_authorship_corpus": 0.8458293368216756,
+  "bundestag": 0.9340030783488759,
+  "cnn_news": 0.975292912991983,
+  "euro_court_cases": 0.9113938047652299,
+  "gutenberg": 0.7971988795518207,
+  "house_of_commons": 0.9296968923413486,
+  "student_essays": 0.9058605673281797
+ },
+ "best_confusion": [
+  [
+   2161,
+   17,
+   303
+  ],
+  [
+   4,
+   4427,
+   13
+  ],
+  [
+   308,
+   46,
+   2721
+  ]
+ ]
+}
