@@ -1,0 +1,17 @@
+
+$ python scripts/train_tfidf.py --config configs/tfidf/pool.yaml
+train=150000 val=10000 test=25000 -> /kaggle/working/m4_tfidf_pool
+dummy (most frequent) val macro-F1 = 0.2051
+  word: vocab=200000 nnz/doc=507 270s
+  char: vocab=300000 nnz/doc=4926 1375s
+  grid {'model': 'logreg', 'C': 10.0}: val macro-F1 = 0.9019 (1592s)
+best: {'model': 'logreg', 'C': 10.0, 'val_macro_f1': 0.9019292676578997, 'sec': 1592}
+ablation (val macro-F1): {'word+char': 0.9019}
+
+== best logreg C=10.0: val macro-F1 = 0.9019
+per-class F1: {'human': 0.8554, 'ai': 0.9872, 'fusion': 0.8631}
+per-domain macro-F1: {'arxiv_papers': 0.8858, 'blog_authorship_corpus': 0.7859, 'bundestag': 0.9212, 'cnn_news': 0.9509, 'euro_court_cases': 0.9344, 'gutenberg': 0.7398, 'house_of_commons': 0.9079, 'student_essays': 0.9026}
+confusion (rows=true, cols=pred, order human/ai/fusion): [[2210, 17, 254], [9, 4404, 31], [467, 57, 2551]]
+submission OK, predicted label share on test: {'ai': 0.517, 'human': 0.267, 'fusion': 0.216}
+
+saved /kaggle/working/m4_tfidf_pool/metrics.json
