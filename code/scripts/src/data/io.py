@@ -17,8 +17,13 @@ def count_words(texts: pd.Series) -> pd.Series:
 
 def load_train_val(root, split_file):
     """train.csv joined with the fixed split -> (train subset, val subset, all train rows)."""
-    split = pd.read_csv(split_file, usecols=["id", "group", "subset"])
+    split = pd.read_csv(split_file, usecols=["id", "group", "fold", "subset"])
     full = pd.read_csv(root / "train.csv").merge(split, on="id", how="inner")
     tr = full[full["subset"] == "train"].reset_index(drop=True)
     va = full[full["subset"] == "val"].reset_index(drop=True)
     return tr, va, full
+
+
+def train_pool(full: pd.DataFrame, val_fold: int) -> pd.DataFrame:
+    """All train rows outside the validation fold (val and its relatives are never inside)."""
+    return full[full["fold"] != val_fold].reset_index(drop=True)

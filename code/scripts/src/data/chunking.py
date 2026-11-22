@@ -54,3 +54,15 @@ def build_windows(all_ids: list, tokenizer, max_len: int, mode: str, head_tokens
             windows.append(prefix + list(w) + suffix)
             owner.append(i)
     return windows, np.asarray(owner, dtype=np.int64)
+
+
+def random_windows(all_ids: list, tokenizer, max_len: int, rng, max_chunks: int = 8,
+                   min_tail: int = 32) -> list:
+    """One randomly chosen chunk per text (with special tokens); call again for a new draw each epoch."""
+    prefix, suffix = special_wrap(tokenizer)
+    body = max_len - len(prefix) - len(suffix)
+    out = []
+    for ids in all_ids:
+        chunks = windows_for(ids, body, "chunks", max_chunks=max_chunks, min_tail=min_tail)
+        out.append(prefix + list(chunks[int(rng.integers(len(chunks)))]) + suffix)
+    return out

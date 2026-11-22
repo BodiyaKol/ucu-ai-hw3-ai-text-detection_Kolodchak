@@ -1,0 +1,7 @@
+base: xlmr.yaml
+exp: m4_xlmr_v2
+train_pool: true         # sample from the whole train pool (folds != val_fold), not only the fixed 50k
+n_train: 100000
+train_mode: random       # one random chunk per text, a new draw every epoch
+epochs: 3
+eval_modes: [chunks]

@@ -1,0 +1,7 @@
+base: base.yaml
+exp: m4_tfidf_pool
+train_pool: true
+n_train: 150000          # ~70% of the pool; the full pool (218k) risks OOM in char vectorization (30 GB RAM)
+ablation: false
+grid:                    # best config of M2 only
+  - {model: logreg, C: 10.0}

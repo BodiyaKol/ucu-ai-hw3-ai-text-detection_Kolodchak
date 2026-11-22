@@ -26,9 +26,14 @@ def make_loader(windows, labels, batch_size: int, pad_id: int, shuffle: bool, nu
 
 
 def train(model, loader, cfg: dict, device: str, fp16: bool, on_epoch_end=None):
-    """AdamW + linear warmup/decay, fp16 autocast, gradient clipping."""
+    """AdamW + linear warmup/decay, fp16 autocast, gradient clipping.
+
+    `loader` is a DataLoader or a function epoch -> DataLoader (new random windows every epoch).
+    """
+    get_loader = loader if callable(loader) else (lambda ep: loader)
+    first = get_loader(0)
     opt = torch.optim.AdamW(model.parameters(), lr=cfg["lr"], weight_decay=cfg["weight_decay"])
-    total = cfg["epochs"] * len(loader)
+    total = cfg["epochs"] * len(first)
     warm = max(1, int(cfg["warmup_ratio"] * total))
 
     def lr_lambda(step):
@@ -38,11 +43,11 @@ def train(model, loader, cfg: dict, device: str, fp16: bool, on_epoch_end=None):
 
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lr_lambda)
     scaler = torch.amp.GradScaler("cuda", enabled=fp16)
-    step, t0 = 0, time.time()
+    step, n_bad, t0 = 0, 0, time.time()
     for ep in range(cfg["epochs"]):
         model.train()
-        run_loss = 0.0
-        for ids, mask, y in loader:
+        run_loss, run_n = 0.0, 0
+        for ids, mask, y in (first if ep == 0 else get_loader(ep)):
             with torch.autocast("cuda", dtype=torch.float16, enabled=fp16):
                 loss = model(input_ids=ids.to(device), attention_mask=mask.to(device),
                              labels=y.to(device)).loss
@@ -54,11 +59,15 @@ def train(model, loader, cfg: dict, device: str, fp16: bool, on_epoch_end=None):
             scaler.update()
             sched.step()
             step += 1
-            run_loss += loss.item()
+            val = loss.item()
+            if np.isfinite(val):
+                run_loss, run_n = run_loss + val, run_n + 1
+            else:
+                n_bad += 1
             if step % cfg["log_every"] == 0:
-                print(f"  ep {ep} step {step}/{total} loss {run_loss / cfg['log_every']:.4f} "
-                      f"lr {sched.get_last_lr()[0]:.2e} {time.time() - t0:.0f}s", flush=True)
-                run_loss = 0.0
+                print(f"  ep {ep} step {step}/{total} loss {run_loss / max(run_n, 1):.4f} "
+                      f"lr {sched.get_last_lr()[0]:.2e} bad_loss {n_bad} {time.time() - t0:.0f}s", flush=True)
+                run_loss, run_n = 0.0, 0
         if on_epoch_end is not None:
             on_epoch_end(ep)
 

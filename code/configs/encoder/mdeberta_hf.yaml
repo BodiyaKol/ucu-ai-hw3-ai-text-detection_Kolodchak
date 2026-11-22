@@ -1,0 +1,9 @@
+base: xlmr.yaml
+exp: m4_mdeberta_hf
+model_name: microsoft/mdeberta-v3-base
+train_labels: [human, fusion]   # specialist on the hard pair; ai is covered by the other models
+train_pool: true
+n_train: 60000
+train_mode: random
+epochs: 2
+eval_modes: [chunks]

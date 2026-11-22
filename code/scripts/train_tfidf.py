@@ -21,7 +21,7 @@ from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.svm import LinearSVC
 
 from src.config import CODE_DIR, _deep_merge, get_data_root, get_output_dir, load_config, set_seed
-from src.data.io import LABELS, load_train_val
+from src.data.io import LABELS, load_train_val, train_pool
 from src.eval.metrics import evaluate, macro_f1
 from src.submission import write_submission
 
@@ -75,6 +75,11 @@ def main():
     root = get_data_root(args.mini)
     split_file = CODE_DIR / ("outputs/split/split_mini.csv.gz" if args.mini else cfg["split"]["file"])
     tr, va, full = load_train_val(root, split_file)
+    if cfg.get("train_pool"):  # train on a sample of the whole pool (folds != val_fold)
+        tr = train_pool(full, cfg["split"]["val_fold"])
+        n = cfg.get("n_train")
+        if n and n < len(tr):
+            tr = tr.sample(n=n, random_state=seed).reset_index(drop=True)
     test = pd.read_csv(root / "test.csv")
     out = get_output_dir(cfg["exp"] + ("_mini" if args.mini else ""))
     print(f"train={len(tr)} val={len(va)} test={len(test)} -> {out}")
@@ -100,9 +105,11 @@ def main():
     best = max(res["grid"], key=lambda r: r["val_macro_f1"])
     print("best:", best)
 
-    # 2. feature ablation with the best model
+    # 2. feature ablation with the best model (skipped for large runs: memory)
     res["ablation"] = {"+".join(names): best["val_macro_f1"]}
-    for n in names:
+    if not cfg.get("ablation", True):
+        del mats
+    for n in (names if cfg.get("ablation", True) else []):
         m = make_model(best["model"], best["C"], seed).fit(stack(mats, [n]), tr["label"])
         res["ablation"][n] = macro_f1(va["label"], m.predict(stack(mats, [n], 0)))
     print("ablation (val macro-F1):", {k: round(v, 4) for k, v in res["ablation"].items()})
