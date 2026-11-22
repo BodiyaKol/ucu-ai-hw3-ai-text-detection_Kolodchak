@@ -26,3 +26,12 @@ def test_tuning_never_worse_than_default():
     assert s_w >= fast_macro_f1(y, predict(blend(pa, pb, 1.0)))
     _, s_b = tune_bias(pa, y)
     assert s_b >= fast_macro_f1(y, predict(pa))
+
+
+def test_simplex_and_hierarchical():
+    from src.eval.postproc import hierarchical, simplex
+    ws = list(simplex(3, 0.5))
+    assert len(ws) == 6 and all(abs(w.sum() - 1) < 1e-9 for w in ws)
+    p, s = np.array([[0.2, 0.5, 0.3]]), np.array([[0.9, 0.1]])
+    assert np.allclose(hierarchical(p, s, 1.0), [[0.45, 0.5, 0.05]])
+    assert np.allclose(hierarchical(p, s, 0.0), p)

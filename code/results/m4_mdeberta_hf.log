@@ -1,0 +1,81 @@
+
+$ python scripts/train_encoder.py --config configs/encoder/mdeberta_hf.yaml
+device=cuda fp16=True model=microsoft/mdeberta-v3-base labels=['human', 'fusion'] train=60000 {'fusion': 33367, 'human': 26633} val=10000 (eval rows 5556) test=25000 -> /kaggle/working/m4_mdeberta_hf
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+tokenized in 107s
+
+Loading weights:   0%|          | 0/198 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 198/198 [00:00<00:00, 13261.24it/s]
+[transformers] [1mDebertaV2ForSequenceClassification LOAD REPORT[0m from: microsoft/mdeberta-v3-base
+Key                                        | Status     | 
+-------------------------------------------+------------+-
+mask_predictions.LayerNorm.bias            | UNEXPECTED | 
+lm_predictions.lm_head.bias                | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.bias      | UNEXPECTED | 
+mask_predictions.classifier.weight         | UNEXPECTED | 
+lm_predictions.lm_head.dense.bias          | UNEXPECTED | 
+deberta.embeddings.word_embeddings._weight | UNEXPECTED | 
+mask_predictions.dense.weight              | UNEXPECTED | 
+mask_predictions.classifier.bias           | UNEXPECTED | 
+mask_predictions.LayerNorm.weight          | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.weight    | UNEXPECTED | 
+mask_predictions.dense.bias                | UNEXPECTED | 
+lm_predictions.lm_head.dense.weight        | UNEXPECTED | 
+pooler.dense.bias                          | MISSING    | 
+pooler.dense.weight                        | MISSING    | 
+classifier.bias                            | MISSING    | 
+classifier.weight                          | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+  ep 0 step 400/15000 loss 0.6752 lr 6.68e-06 bad_loss 0 234s
+  ep 0 step 800/15000 loss 0.5675 lr 1.34e-05 bad_loss 0 464s
+  ep 0 step 1200/15000 loss 0.5617 lr 1.47e-05 bad_loss 0 695s
+  ep 0 step 1600/15000 loss 0.5187 lr 1.43e-05 bad_loss 0 925s
+  ep 0 step 2000/15000 loss 0.5056 lr 1.38e-05 bad_loss 0 1155s
+  ep 0 step 2400/15000 loss 0.4585 lr 1.34e-05 bad_loss 0 1385s
+  ep 0 step 2800/15000 loss 0.4408 lr 1.30e-05 bad_loss 0 1615s
+  ep 0 step 3200/15000 loss 0.4382 lr 1.26e-05 bad_loss 0 1844s
+  ep 0 step 3600/15000 loss 0.4177 lr 1.21e-05 bad_loss 0 2073s
+  ep 0 step 4000/15000 loss 0.4213 lr 1.17e-05 bad_loss 0 2303s
+  ep 0 step 4400/15000 loss 0.3827 lr 1.13e-05 bad_loss 0 2531s
+  ep 0 step 4800/15000 loss 0.4049 lr 1.09e-05 bad_loss 0 2761s
+  ep 0 step 5200/15000 loss 0.3806 lr 1.04e-05 bad_loss 0 2990s
+  ep 0 step 5600/15000 loss 0.3981 lr 1.00e-05 bad_loss 0 3219s
+  ep 0 step 6000/15000 loss 0.3779 lr 9.57e-06 bad_loss 0 3448s
+  ep 0 step 6400/15000 loss 0.3767 lr 9.15e-06 bad_loss 0 3678s
+  ep 0 step 6800/15000 loss 0.3786 lr 8.72e-06 bad_loss 0 3907s
+  ep 0 step 7200/15000 loss 0.3760 lr 8.30e-06 bad_loss 0 4136s
+== epoch 0: val macro-F1 (head, 2 classes) = 0.8226
+  ep 1 step 7600/15000 loss 0.3361 lr 7.87e-06 bad_loss 0 4468s
+  ep 1 step 8000/15000 loss 0.3689 lr 7.45e-06 bad_loss 0 4698s
+  ep 1 step 8400/15000 loss 0.3557 lr 7.02e-06 bad_loss 0 4927s
+  ep 1 step 8800/15000 loss 0.3512 lr 6.60e-06 bad_loss 0 5157s
+  ep 1 step 9200/15000 loss 0.3348 lr 6.17e-06 bad_loss 0 5386s
+  ep 1 step 9600/15000 loss 0.3217 lr 5.74e-06 bad_loss 0 5615s
+  ep 1 step 10000/15000 loss 0.3339 lr 5.32e-06 bad_loss 0 5845s
+  ep 1 step 10400/15000 loss 0.3524 lr 4.89e-06 bad_loss 0 6074s
+  ep 1 step 10800/15000 loss 0.3175 lr 4.47e-06 bad_loss 0 6303s
+  ep 1 step 11200/15000 loss 0.3504 lr 4.04e-06 bad_loss 0 6532s
+  ep 1 step 11600/15000 loss 0.3306 lr 3.62e-06 bad_loss 0 6761s
+  ep 1 step 12000/15000 loss 0.3313 lr 3.19e-06 bad_loss 0 6990s
+  ep 1 step 12400/15000 loss 0.3219 lr 2.77e-06 bad_loss 0 7219s
+  ep 1 step 12800/15000 loss 0.3175 lr 2.34e-06 bad_loss 0 7448s
+  ep 1 step 13200/15000 loss 0.3139 lr 1.91e-06 bad_loss 0 7677s
+  ep 1 step 13600/15000 loss 0.3245 lr 1.49e-06 bad_loss 0 7906s
+  ep 1 step 14000/15000 loss 0.3303 lr 1.06e-06 bad_loss 0 8136s
+  ep 1 step 14400/15000 loss 0.3300 lr 6.38e-07 bad_loss 0 8365s
+  ep 1 step 14800/15000 loss 0.3188 lr 2.13e-07 bad_loss 0 8594s
+== epoch 1: val macro-F1 (head, 2 classes) = 0.8329
+
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]
+Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.38s/it]
+Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.38s/it]
+== mode chunks: val macro-F1 = 0.9011 windows=21542 F1={'human': 0.8849, 'fusion': 0.9172} (1198s)
+
+best mode: chunks  val macro-F1 = 0.9011
+per-domain macro-F1: {'arxiv_papers': 0.4468, 'blog_authorship_corpus': 0.86, 'bundestag': 0.8432, 'cnn_news': 0.9783, 'euro_court_cases': 0.8332, 'gutenberg': 0.9443, 'house_of_commons': 0.939, 'student_essays': 0.9376}
+confusion (rows=true, cols=pred, order ['human', 'fusion']): [[2057, 424], [111, 2964]]
+specialist or test subset -> submission skipped (used in the ensemble)
+saved /kaggle/working/m4_mdeberta_hf/metrics.json

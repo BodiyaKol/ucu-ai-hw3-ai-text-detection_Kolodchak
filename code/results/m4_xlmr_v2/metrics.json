@@ -1,0 +1,62 @@
+{
+ "exp": "m4_xlmr_v2",
+ "model": "FacebookAI/xlm-roberta-base",
+ "labels": [
+  "human",
+  "ai",
+  "fusion"
+ ],
+ "n_train": 100000,
+ "train_mode": "random",
+ "epochs": 3,
+ "epoch_val_macro_f1": [
+  0.8775317987277041,
+  0.8824950210864752,
+  0.891536576940532
+ ],
+ "train_sec": 9969,
+ "modes": {
+  "chunks": {
+   "macro_f1": 0.9273569516326491,
+   "f1": {
+    "human": 0.8790112749349523,
+    "ai": 0.9925030770952221,
+    "fusion": 0.9105565028677725
+   },
+   "confusion": [
+    [
+     2027,
+     22,
+     432
+    ],
+    [
+     2,
+     4435,
+     7
+    ],
+    [
+     102,
+     36,
+     2937
+    ]
+   ],
+   "f1_by_domain": {
+    "arxiv_papers": 0.6719685644636592,
+    "blog_authorship_corpus": 0.8740405473849183,
+    "bundestag": 0.9162146255224282,
+    "cnn_news": 0.9869503813200264,
+    "euro_court_cases": 0.8464531794247444,
+    "gutenberg": 0.8539269080066044,
+    "house_of_commons": 0.9543842756058597,
+    "student_essays": 0.9511157679111496
+   },
+   "n_windows": 19872
+  }
+ },
+ "best_mode": "chunks",
+ "test_pred_share": {
+  "ai": 0.518,
+  "fusion": 0.264,
+  "human": 0.218
+ }
+}

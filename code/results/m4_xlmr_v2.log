@@ -1,0 +1,134 @@
+
+$ python scripts/train_encoder.py --config configs/encoder/xlmr_v2.yaml
+device=cuda fp16=True model=FacebookAI/xlm-roberta-base labels=['human', 'ai', 'fusion'] train=100000 {'ai': 44869, 'fusion': 30639, 'human': 24492} val=10000 (eval rows 10000) test=25000 -> /kaggle/working/m4_xlmr_v2
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (617 > 512). Running this sequence through the model will result in indexing errors
+tokenized in 156s
+
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 197/197 [00:00<00:00, 2650.78it/s]
+[transformers] [1mXLMRobertaForSequenceClassification LOAD REPORT[0m from: FacebookAI/xlm-roberta-base
+Key                         | Status     | 
+----------------------------+------------+-
+lm_head.layer_norm.weight   | UNEXPECTED | 
+lm_head.layer_norm.bias     | UNEXPECTED | 
+lm_head.dense.bias          | UNEXPECTED | 
+roberta.pooler.dense.bias   | UNEXPECTED | 
+lm_head.bias                | UNEXPECTED | 
+lm_head.dense.weight        | UNEXPECTED | 
+roberta.pooler.dense.weight | UNEXPECTED | 
+classifier.out_proj.bias    | MISSING    | 
+classifier.out_proj.weight  | MISSING    | 
+classifier.dense.weight     | MISSING    | 
+classifier.dense.bias       | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+  ep 0 step 200/18750 loss 1.0777 lr 3.57e-06 bad_loss 0 99s
+  ep 0 step 400/18750 loss 0.8052 lr 7.13e-06 bad_loss 0 205s
+  ep 0 step 600/18750 loss 0.5821 lr 1.07e-05 bad_loss 0 309s
+  ep 0 step 800/18750 loss 0.5208 lr 1.42e-05 bad_loss 0 414s
+  ep 0 step 1000/18750 loss 0.4776 lr 1.78e-05 bad_loss 0 519s
+  ep 0 step 1200/18750 loss 0.4635 lr 1.99e-05 bad_loss 0 624s
+  ep 0 step 1400/18750 loss 0.4502 lr 1.97e-05 bad_loss 0 728s
+  ep 0 step 1600/18750 loss 0.3988 lr 1.95e-05 bad_loss 0 833s
+  ep 0 step 1800/18750 loss 0.3887 lr 1.92e-05 bad_loss 0 937s
+  ep 0 step 2000/18750 loss 0.3891 lr 1.90e-05 bad_loss 0 1042s
+  ep 0 step 2200/18750 loss 0.3629 lr 1.88e-05 bad_loss 0 1146s
+  ep 0 step 2400/18750 loss 0.3677 lr 1.86e-05 bad_loss 0 1251s
+  ep 0 step 2600/18750 loss 0.3543 lr 1.83e-05 bad_loss 0 1355s
+  ep 0 step 2800/18750 loss 0.3751 lr 1.81e-05 bad_loss 0 1459s
+  ep 0 step 3000/18750 loss 0.3595 lr 1.79e-05 bad_loss 0 1563s
+  ep 0 step 3200/18750 loss 0.3313 lr 1.76e-05 bad_loss 0 1667s
+  ep 0 step 3400/18750 loss 0.3614 lr 1.74e-05 bad_loss 0 1771s
+  ep 0 step 3600/18750 loss 0.3023 lr 1.72e-05 bad_loss 0 1875s
+  ep 0 step 3800/18750 loss 0.3151 lr 1.70e-05 bad_loss 0 1979s
+  ep 0 step 4000/18750 loss 0.3260 lr 1.67e-05 bad_loss 0 2082s
+  ep 0 step 4200/18750 loss 0.3266 lr 1.65e-05 bad_loss 0 2187s
+  ep 0 step 4400/18750 loss 0.2992 lr 1.63e-05 bad_loss 0 2290s
+  ep 0 step 4600/18750 loss 0.2843 lr 1.61e-05 bad_loss 0 2393s
+  ep 0 step 4800/18750 loss 0.3034 lr 1.58e-05 bad_loss 0 2497s
+  ep 0 step 5000/18750 loss 0.2917 lr 1.56e-05 bad_loss 0 2600s
+  ep 0 step 5200/18750 loss 0.2880 lr 1.54e-05 bad_loss 0 2704s
+  ep 0 step 5400/18750 loss 0.2944 lr 1.51e-05 bad_loss 0 2808s
+  ep 0 step 5600/18750 loss 0.2844 lr 1.49e-05 bad_loss 0 2912s
+  ep 0 step 5800/18750 loss 0.2805 lr 1.47e-05 bad_loss 0 3016s
+  ep 0 step 6000/18750 loss 0.2622 lr 1.45e-05 bad_loss 0 3119s
+  ep 0 step 6200/18750 loss 0.2768 lr 1.42e-05 bad_loss 0 3224s
+== epoch 0: val macro-F1 (head, 3 classes) = 0.8775
+  ep 1 step 6400/18750 loss 0.2360 lr 1.40e-05 bad_loss 0 3400s
+  ep 1 step 6600/18750 loss 0.2460 lr 1.38e-05 bad_loss 0 3503s
+  ep 1 step 6800/18750 loss 0.2438 lr 1.36e-05 bad_loss 0 3607s
+  ep 1 step 7000/18750 loss 0.2396 lr 1.33e-05 bad_loss 0 3711s
+  ep 1 step 7200/18750 loss 0.2444 lr 1.31e-05 bad_loss 0 3815s
+  ep 1 step 7400/18750 loss 0.2326 lr 1.29e-05 bad_loss 0 3919s
+  ep 1 step 7600/18750 loss 0.2392 lr 1.27e-05 bad_loss 0 4023s
+  ep 1 step 7800/18750 loss 0.2415 lr 1.24e-05 bad_loss 0 4126s
+  ep 1 step 8000/18750 loss 0.2247 lr 1.22e-05 bad_loss 0 4230s
+  ep 1 step 8200/18750 loss 0.2298 lr 1.20e-05 bad_loss 0 4334s
+  ep 1 step 8400/18750 loss 0.2373 lr 1.17e-05 bad_loss 0 4438s
+  ep 1 step 8600/18750 loss 0.2457 lr 1.15e-05 bad_loss 0 4541s
+  ep 1 step 8800/18750 loss 0.2308 lr 1.13e-05 bad_loss 0 4644s
+  ep 1 step 9000/18750 loss 0.2313 lr 1.11e-05 bad_loss 0 4748s
+  ep 1 step 9200/18750 loss 0.2357 lr 1.08e-05 bad_loss 0 4852s
+  ep 1 step 9400/18750 loss 0.2451 lr 1.06e-05 bad_loss 0 4956s
+  ep 1 step 9600/18750 loss 0.2256 lr 1.04e-05 bad_loss 0 5061s
+  ep 1 step 9800/18750 loss 0.2224 lr 1.02e-05 bad_loss 0 5165s
+  ep 1 step 10000/18750 loss 0.2234 lr 9.93e-06 bad_loss 0 5269s
+  ep 1 step 10200/18750 loss 0.2310 lr 9.70e-06 bad_loss 0 5374s
+  ep 1 step 10400/18750 loss 0.2395 lr 9.48e-06 bad_loss 0 5477s
+  ep 1 step 10600/18750 loss 0.2356 lr 9.25e-06 bad_loss 0 5582s
+  ep 1 step 10800/18750 loss 0.2363 lr 9.02e-06 bad_loss 0 5686s
+  ep 1 step 11000/18750 loss 0.2269 lr 8.79e-06 bad_loss 0 5790s
+  ep 1 step 11200/18750 loss 0.2197 lr 8.57e-06 bad_loss 0 5894s
+  ep 1 step 11400/18750 loss 0.2118 lr 8.34e-06 bad_loss 0 5998s
+  ep 1 step 11600/18750 loss 0.2275 lr 8.11e-06 bad_loss 0 6102s
+  ep 1 step 11800/18750 loss 0.2076 lr 7.89e-06 bad_loss 0 6207s
+  ep 1 step 12000/18750 loss 0.2021 lr 7.66e-06 bad_loss 0 6311s
+  ep 1 step 12200/18750 loss 0.2323 lr 7.43e-06 bad_loss 0 6415s
+  ep 1 step 12400/18750 loss 0.2214 lr 7.21e-06 bad_loss 0 6520s
+== epoch 1: val macro-F1 (head, 3 classes) = 0.8825
+  ep 2 step 12600/18750 loss 0.1937 lr 6.98e-06 bad_loss 0 6699s
+  ep 2 step 12800/18750 loss 0.1985 lr 6.75e-06 bad_loss 0 6803s
+  ep 2 step 13000/18750 loss 0.1819 lr 6.52e-06 bad_loss 0 6907s
+  ep 2 step 13200/18750 loss 0.1953 lr 6.30e-06 bad_loss 0 7011s
+  ep 2 step 13400/18750 loss 0.1851 lr 6.07e-06 bad_loss 0 7115s
+  ep 2 step 13600/18750 loss 0.1956 lr 5.84e-06 bad_loss 0 7220s
+  ep 2 step 13800/18750 loss 0.1851 lr 5.62e-06 bad_loss 0 7324s
+  ep 2 step 14000/18750 loss 0.1967 lr 5.39e-06 bad_loss 0 7428s
+  ep 2 step 14200/18750 loss 0.1968 lr 5.16e-06 bad_loss 0 7532s
+  ep 2 step 14400/18750 loss 0.1869 lr 4.94e-06 bad_loss 0 7635s
+  ep 2 step 14600/18750 loss 0.1939 lr 4.71e-06 bad_loss 0 7739s
+  ep 2 step 14800/18750 loss 0.1860 lr 4.48e-06 bad_loss 0 7843s
+  ep 2 step 15000/18750 loss 0.1787 lr 4.26e-06 bad_loss 0 7947s
+  ep 2 step 15200/18750 loss 0.1918 lr 4.03e-06 bad_loss 0 8050s
+  ep 2 step 15400/18750 loss 0.2091 lr 3.80e-06 bad_loss 0 8154s
+  ep 2 step 15600/18750 loss 0.1850 lr 3.57e-06 bad_loss 0 8257s
+  ep 2 step 15800/18750 loss 0.1781 lr 3.35e-06 bad_loss 0 8360s
+  ep 2 step 16000/18750 loss 0.1894 lr 3.12e-06 bad_loss 0 8464s
+  ep 2 step 16200/18750 loss 0.1801 lr 2.89e-06 bad_loss 0 8568s
+  ep 2 step 16400/18750 loss 0.1858 lr 2.67e-06 bad_loss 0 8672s
+  ep 2 step 16600/18750 loss 0.1865 lr 2.44e-06 bad_loss 0 8776s
+  ep 2 step 16800/18750 loss 0.1937 lr 2.21e-06 bad_loss 0 8880s
+  ep 2 step 17000/18750 loss 0.1706 lr 1.99e-06 bad_loss 0 8983s
+  ep 2 step 17200/18750 loss 0.1781 lr 1.76e-06 bad_loss 0 9088s
+  ep 2 step 17400/18750 loss 0.1696 lr 1.53e-06 bad_loss 0 9192s
+  ep 2 step 17600/18750 loss 0.2018 lr 1.30e-06 bad_loss 0 9296s
+  ep 2 step 17800/18750 loss 0.1876 lr 1.08e-06 bad_loss 0 9400s
+  ep 2 step 18000/18750 loss 0.1848 lr 8.51e-07 bad_loss 0 9505s
+  ep 2 step 18200/18750 loss 0.1614 lr 6.24e-07 bad_loss 0 9609s
+  ep 2 step 18400/18750 loss 0.1804 lr 3.97e-07 bad_loss 0 9713s
+  ep 2 step 18600/18750 loss 0.1813 lr 1.70e-07 bad_loss 0 9817s
+== epoch 2: val macro-F1 (head, 3 classes) = 0.8915
+
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]
+Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.35s/it]
+Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.35s/it]
+== mode chunks: val macro-F1 = 0.9274 windows=19872 F1={'human': 0.879, 'ai': 0.9925, 'fusion': 0.9106} (434s)
+
+best mode: chunks  val macro-F1 = 0.9274
+per-domain macro-F1: {'arxiv_papers': 0.672, 'blog_authorship_corpus': 0.874, 'bundestag': 0.9162, 'cnn_news': 0.987, 'euro_court_cases': 0.8465, 'gutenberg': 0.8539, 'house_of_commons': 0.9544, 'student_essays': 0.9511}
+confusion (rows=true, cols=pred, order ['human', 'ai', 'fusion']): [[2027, 22, 432], [2, 4435, 7], [102, 36, 2937]]
+submission OK, predicted label share on test: {'ai': 0.518, 'fusion': 0.264, 'human': 0.218}
+saved /kaggle/working/m4_xlmr_v2/metrics.json

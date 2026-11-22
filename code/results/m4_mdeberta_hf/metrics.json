@@ -1,0 +1,47 @@
+{
+ "exp": "m4_mdeberta_hf",
+ "model": "microsoft/mdeberta-v3-base",
+ "labels": [
+  "human",
+  "fusion"
+ ],
+ "n_train": 60000,
+ "train_mode": "random",
+ "epochs": 2,
+ "epoch_val_macro_f1": [
+  0.8226043862407255,
+  0.8329034086670366
+ ],
+ "train_sec": 8813,
+ "modes": {
+  "chunks": {
+   "macro_f1": 0.9010712966211325,
+   "f1": {
+    "human": 0.8849214884921488,
+    "fusion": 0.9172211047501161
+   },
+   "confusion": [
+    [
+     2057,
+     424
+    ],
+    [
+     111,
+     2964
+    ]
+   ],
+   "f1_by_domain": {
+    "arxiv_papers": 0.44680851063829785,
+    "blog_authorship_corpus": 0.8600160769889631,
+    "bundestag": 0.8431859246956617,
+    "cnn_news": 0.9782570840961394,
+    "euro_court_cases": 0.8331538454075347,
+    "gutenberg": 0.9442970822281167,
+    "house_of_commons": 0.9389844026940801,
+    "student_essays": 0.9375884374368304
+   },
+   "n_windows": 21542
+  }
+ },
+ "best_mode": "chunks"
+}

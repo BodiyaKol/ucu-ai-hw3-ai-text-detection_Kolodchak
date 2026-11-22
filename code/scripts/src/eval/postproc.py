@@ -48,3 +48,25 @@ def tune_bias(p, y, fixed: int = 1):
             if s > best_s:
                 best_w, best_s = w, s
     return best_w, float(best_s)
+
+
+def simplex(k: int, step: float = 0.1):
+    """All weight vectors of length k on a grid with the given step that sum to 1."""
+    import itertools
+    n = int(round(1 / step))
+    for c in itertools.product(range(n + 1), repeat=k):
+        if sum(c) == n:
+            yield np.array(c, dtype=float) / n
+
+
+def hierarchical(p: np.ndarray, s: np.ndarray, a: float) -> np.ndarray:
+    """Keep P(ai) from p (order human, ai, fusion); split the rest into human/fusion by
+    a * specialist P(human | human-or-fusion) + (1 - a) * p's own split."""
+    rest = p[:, 0] + p[:, 2]
+    own = p[:, 0] / np.maximum(rest, 1e-9)
+    share_h = a * s[:, 0] + (1.0 - a) * own
+    out = np.empty_like(p)
+    out[:, 1] = p[:, 1]
+    out[:, 0] = rest * share_h
+    out[:, 2] = rest * (1.0 - share_h)
+    return out
