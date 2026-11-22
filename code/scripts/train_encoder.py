@@ -107,7 +107,7 @@ def main():
     va_eval = va[va_mask].reset_index(drop=True)
     win_va_head, own_va_head = build_windows(ids_va_eval, tok, L, "head", **wkw)
 
-    model = load_model(cfg, labels).to(device)
+    model = load_model(cfg, labels).float().to(device)  # mDeBERTa checkpoint loads as fp16; AMP needs fp32 weights
     res = {"exp": cfg["exp"], "model": cfg["model_name"], "labels": labels, "n_train": len(tr),
            "train_mode": cfg["train_mode"], "epochs": cfg["epochs"], "epoch_val_macro_f1": []}
 
