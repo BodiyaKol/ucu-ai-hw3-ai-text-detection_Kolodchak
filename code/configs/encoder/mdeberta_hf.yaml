@@ -7,3 +7,7 @@ n_train: 60000
 train_mode: random
 epochs: 2
 eval_modes: [chunks]
+batch_size: 8                   # mDeBERTa (disentangled attention) OOMs on T4 at 16 x 512
+eval_batch_size: 32
+lr: 1.5e-5                      # smaller batch -> noisier gradient -> slightly lower lr
+log_every: 400
