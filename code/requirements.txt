@@ -12,3 +12,4 @@ six==1.17.0        # kaggle 2.2.5 imports six but does not declare it as a depen
 pytest==9.2.0
 transformers==5.23.0   # tokenizers for token-length EDA; models need torch (added later)
 sentencepiece==0.2.3   # needed by the mDeBERTa-v3 tokenizer
+ipykernel          # run the demo notebook from the venv (pin after install)

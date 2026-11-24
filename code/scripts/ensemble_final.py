@@ -5,6 +5,7 @@ Specialist: P(ai) from the blend; the human/fusion split mixed with the speciali
 Honest estimate: tuned on one grouped half of val, evaluated on the other (2-fold cross-fit).
 Test submissions use parameters tuned on the full val.
 """
+import argparse
 import json
 
 import numpy as np
@@ -30,6 +31,8 @@ CONFIGS = [  # (name, models, use specialist)
     ("tfidf+xlmr_m3+xlmr_v2 + specialist", ["tfidf", "xlmr_m3", "xlmr_v2"], True),
 ]
 A_GRID = np.round(np.linspace(0, 1, 11), 2)
+MINI_DIRS = {"tfidf": "outputs/m4_tfidf_pool_mini", "xlmr_m3": "outputs/m3_xlmr_mini",
+             "xlmr_v2": "outputs/m4_xlmr_v2_mini", "spec": "outputs/m4_mdeberta_hf_mini"}
 
 
 def load(folder, suffix, split, labels):
@@ -45,26 +48,35 @@ def load(folder, suffix, split, labels):
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--mini", action="store_true", help="use outputs of the --mini runs (smoke test)")
+    args = ap.parse_args()
     cfg = load_config("configs/protocol.yaml")
+    models = {n: (MINI_DIRS[n] if args.mini else f, s) for n, (f, s) in MODELS.items()}
+    spec = (MINI_DIRS["spec"] if args.mini else SPEC[0], SPEC[1])
     probs = {"val": {}, "test": {}}
-    for split in probs:
-        for name, (folder, suffix) in MODELS.items():
-            d = load(folder, suffix, split, LABELS)
+    for split_name in probs:
+        for name, (folder, suffix) in models.items():
+            d = load(folder, suffix, split_name, LABELS)
             if d is not None:
-                probs[split][name] = d
-        s = load(*SPEC, split, ["human", "fusion"])
+                probs[split_name][name] = d
+        s = load(*spec, split_name, ["human", "fusion"])
         if s is not None:
-            probs[split]["spec"] = s
+            probs[split_name]["spec"] = s
     print("available:", sorted(probs["val"]))
 
-    ids_v = probs["val"]["tfidf"].index.to_numpy()
-    ids_te = probs["test"]["tfidf"].index.to_numpy()
+    def common_ids(split_name):  # rows predicted by every model (mini encoders use a subset)
+        keep = set.intersection(*(set(d.index) for d in probs[split_name].values()))
+        return np.array([i for i in probs[split_name]["tfidf"].index if i in keep])
+
+    ids_v, ids_te = common_ids("val"), common_ids("test")
     P = {k: v.loc[ids_v].to_numpy() for k, v in probs["val"].items()}
     PT = {k: v.loc[ids_te].to_numpy() for k, v in probs["test"].items()}
 
-    ann = pd.read_csv(CODE_DIR / "data/annotations/annotations.csv.gz",
-                      usecols=["id", "label", "domain"], dtype={"label": "string"})
-    split = pd.read_csv(CODE_DIR / cfg["split"]["file"], usecols=["id", "group"])
+    ann_path = "outputs/annotations/annotations_mini.csv.gz" if args.mini else "data/annotations/annotations.csv.gz"
+    split_path = "outputs/split/split_mini.csv.gz" if args.mini else cfg["split"]["file"]
+    ann = pd.read_csv(CODE_DIR / ann_path, usecols=["id", "label", "domain"], dtype={"label": "string"})
+    split = pd.read_csv(CODE_DIR / split_path, usecols=["id", "group"])
     val = pd.DataFrame({"id": ids_v}).merge(ann, on="id").merge(split, on="id")
     assert (val["id"].to_numpy() == ids_v).all()
     y = val["label"].map(LABEL2ID).to_numpy()
@@ -122,12 +134,17 @@ def main():
     print("per-domain macro-F1:", {k: round(v, 4) for k, v in rb["f1_by_domain"].items()})
     print("confusion (rows=true, cols=pred, order human/ai/fusion):", rb["confusion"])
 
-    out = get_output_dir("m4_final")
+    out = get_output_dir("m4_final" + ("_mini" if args.mini else ""))
     sample = CODE_DIR / "outputs/03_tfidf/m2_tfidf/submission.csv"   # validated full-order id list
     shares = {}
     for i, (name, (names, w, a)) in enumerate(finals.items()):
         pred = combine(PT, names, w, a).argmax(1)
-        sub = write_submission(ids_te, [LABELS[j] for j in pred], sample, out / f"sub_{i}.csv")
+        labels_te = [LABELS[j] for j in pred]
+        if args.mini:   # test subset only -> plain csv, no full-order check
+            sub = pd.DataFrame({"id": ids_te, "label": labels_te})
+            sub.to_csv(out / f"sub_{i}.csv", index=False)
+        else:
+            sub = write_submission(ids_te, labels_te, sample, out / f"sub_{i}.csv")
         shares[name] = sub["label"].value_counts(normalize=True).round(3).to_dict()
         print(f"sub_{i}.csv  {name}  params: {fmt(names, w, a)}  test share: {shares[name]}")
     table.to_csv(out / "experiments.csv", index=False)
