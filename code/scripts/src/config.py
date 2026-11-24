@@ -11,7 +11,8 @@ KAGGLE_INPUT = Path("/kaggle/input")
 
 
 def is_kaggle() -> bool:
-    return KAGGLE_INPUT.exists()
+    # the folder alone is not enough: Colab also has /kaggle/input; this variable is set by Kaggle kernels only
+    return "KAGGLE_KERNEL_RUN_TYPE" in os.environ and KAGGLE_INPUT.exists()
 
 
 def _deep_merge(base: dict, override: dict) -> dict:
